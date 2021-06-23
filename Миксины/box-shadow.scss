@@ -1,0 +1,5 @@
+@mixin box-shadow ($shadow) {
+    @if global-variable-exists(experimental-support-for-mozilla) {-moz-box-shadow: unquote($shadow);}
+    @if global-variable-exists(experimental-support-for-webkit) {-webkit-box-shadow: unquote($shadow);}
+    box-shadow: unquote($shadow);
+}

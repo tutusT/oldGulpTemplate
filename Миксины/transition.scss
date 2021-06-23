@@ -1,0 +1,7 @@
+@mixin transition ($transition) {
+    @if global-variable-exists(experimental-support-for-webkit) {-webkit-transition: $transition;}
+    @if global-variable-exists(experimental-support-for-mozilla) {-moz-transition: $transition;}
+    @if global-variable-exists(experimental-support-for-opera) {-o-transition: $transition;}
+    @if global-variable-exists(experimental-support-for-microsoft) {-ms-transition: $transition;}
+    transition: $transition;
+}

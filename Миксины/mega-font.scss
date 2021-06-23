@@ -1,0 +1,61 @@
+@mixin mega-font($name, $folder, $defaults : true, $additional : ()) {
+
+   // общий набор начертаний для использования внутри миксина
+  $tracing_collection : (
+    t     : (200, normal), // thin
+    t-i   : (200, italic), // thin italic
+    l     : (300, normal), // light
+    l-i   : (300, italic), // light italic
+    r     : (400, normal), // regular
+    i     : (400, italic), // regular italic
+    m     : (500, normal), // medium
+    m-i   : (500, italic), // medium italic
+    s-b   : (600, normal), // semi bold
+    s-b-i : (600, italic), // semi bold italic
+    b     : (700, normal), // bold
+    b-i   : (700, italic), // bold italic
+    e-b   : (800, normal), // extra bold
+    e-b-i : (800, italic), // extra bold italic
+    bl    : (900, normal), // black (mega bold)
+    bl-i  : (900, italic)  // black italic (mega bold italic)
+  );
+
+  /**
+   * стандартный набор начертаний шрифтов
+   *
+   * r   нормальный
+   * i   курсив
+   * b   жирный
+   * b-i жирный-курсив
+   *
+   * если включено подключение стандартных начертаний $defaults равный true
+   * добавляем в финальный набор начертаний стандартный набор (нормальный, нормальный-курсив, жирный, жирный-курсив)
+   */
+  $tracing_final : if($defaults,(r, i, b, b-i),());
+
+  // формируем финальную коллекцию начертаний
+  $fonts : join($tracing_final, $additional);
+
+  // проходим по массиву финального набора начертаний шрифтов
+  @each $tracing in $fonts {
+    // получаем массив с параметрами начертания по его ключу (к примеру r) из общего набора $tracing_collection
+    $props : map-get($tracing_collection, $tracing);
+
+    // собираем финальный font-face
+    @font-face {
+      font-weight : nth($props, 1);
+      font-style  : nth($props, 2);
+
+      /**
+       * вместо кода ниже, можно заиспользовать глобальный миксин font-face
+       * @include font-face(#{$name}, #{$folder}/#{$folder}-#{$tracing}, $weight : nth($props, 1), $style : nth($props, 2));
+       */
+      font-family : #{$name};
+      src         : url("/g/fonts/#{$folder}/#{$folder}-#{$tracing}.eot");
+      src         : url("/g/fonts/#{$folder}/#{$folder}-#{$tracing}.eot?#iefix") format("embedded-opentype"),
+                    url("/g/fonts/#{$folder}/#{$folder}-#{$tracing}.woff") format("woff"),
+                    url("/g/fonts/#{$folder}/#{$folder}-#{$tracing}.ttf") format("truetype"),
+                    url("/g/fonts/#{$folder}/#{$folder}-#{$tracing}.svg##{$name}") format("svg");
+    }
+  }
+}

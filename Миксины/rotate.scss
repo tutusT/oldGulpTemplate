@@ -1,0 +1,8 @@
+@mixin rotate($deg) {
+    @if $experimental-support-for-webkit {-webkit-transform: unquote("rotate(#{$deg}deg)");}
+    @if $experimental-support-for-mozilla {-moz-transform: unquote("rotate(#{$deg}deg)");}
+    @if $experimental-support-for-microsoft {-ms-transform: unquote("rotate(#{$deg}deg)");}
+    @if $experimental-support-for-opera {-o-transform: unquote("rotate(#{$deg}deg)");}
+    transform: unquote("rotate(#{$deg}deg)");
+    //@if $legacy-support-for-ie8 {-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=#{cos($deg)}, M12=-#{sin($deg)}, M21=#{sin($deg)}, M22=#{cos($deg)})";}
+}
